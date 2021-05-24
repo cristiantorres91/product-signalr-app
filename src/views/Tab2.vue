@@ -70,16 +70,33 @@ export default {
     const category = ref("");
     const price = ref("");
     const onSubmit = async () => {
+      
       const loading = await loadingController.create({
         cssClass: "my-custom-class",
         message: "Add...",
       });
-      await loading.present();
+      try {
+        await loading.present();
+  
+        console.log(name.value);
+  
+          const requestOptions = {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name: name.value, category: category.value, price: price.value })
+          };
+          const response = await fetch("http://localhost:55802/api/Product", requestOptions);
+          const data = await response.json();
+          console.log(data);
+          name.value = "";
+          category.value =  "";
+          price.value = "";
+      } catch (error) {
+        console.log(error);
+      }finally{
+        await loading.dismiss();
+      }
 
-      console.log(name.value);
-
-
-      await loading.dismiss();
     };
     return {
       name,

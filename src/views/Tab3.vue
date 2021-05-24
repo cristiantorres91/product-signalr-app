@@ -2,27 +2,25 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Información</ion-title>
+        <ion-title>Information</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content :fullscreen="true">
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large">Tab 3</ion-title>
-        </ion-toolbar>
-      </ion-header>
-      
-      <ExploreContainer name="Tab 3 page" />
+    <ion-content :fullscreen="true" class="ion-padding ">
+      <h3 class="ion-justify-content-center">Application Created by</h3>
+        <ion-item target="blank" href="http://cristiantorresalfaro.blogspot.com/">
+          <ion-label>
+            Cristian Torres
+          </ion-label>
+        </ion-item>
     </ion-content>
   </ion-page>
 </template>
 
 <script lang="ts">
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
-import ExploreContainer from '@/components/ExploreContainer.vue';
 
 export default  {
   name: 'Tab3',
-  components: { ExploreContainer, IonHeader, IonToolbar, IonTitle, IonContent, IonPage }
+  components: { IonHeader, IonToolbar, IonTitle, IonContent, IonPage }
 }
 </script>

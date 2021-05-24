@@ -2,15 +2,15 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Inicio</ion-title>
+        <ion-title>Home</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content :fullscreen="true">
+    <ion-content :fullscreen="true" class="ion-padding">
       <ion-list>
         <ion-list-header lines="inset">
           <ion-label>Products</ion-label>
         </ion-list-header>
-      <div v-for="item in dataApi" :key="item.id" >
+        <div v-for="item in dataApi" :key="item.id">
           <ion-item>
             <ion-label>
               <h2>{{ item.name }}</h2>
@@ -24,28 +24,40 @@
 </template>
 
 <script lang="ts">
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent,
+import {
+  IonPage,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonContent,
+  IonList,
+  IonListHeader,
+  IonLabel,
+  IonItem,
+  alertController 
+} from "@ionic/vue";
+import { ref, onMounted } from "vue";
+import { HubConnectionBuilder, LogLevel } from "@aspnet/signalr";
+export default {
+  name: "Tab1",
+  components: {
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonContent,
+    IonPage,
     IonList,
     IonListHeader,
     IonLabel,
-    IonItem, } from '@ionic/vue';
-import { ref, onMounted } from "vue";
-export default  {
-  name: 'Tab1',
-  components: {IonHeader, IonToolbar, IonTitle, IonContent, IonPage,
-   IonList,
-  IonListHeader,
-  IonLabel,
-  IonItem,},
+    IonItem,
+  },
 
-    setup() {
+  setup() {
     const dataApi = ref([]);
     //metodo para obtener la data de la api
     const getData = async () => {
       try {
-        const response = await fetch(
-          "http://localhost:55802/api/Product"
-        );
+        const response = await fetch("http://localhost:55802/api/Product");
         dataApi.value = await response.json();
         console.log(dataApi.value);
       } catch (error) {
@@ -53,14 +65,33 @@ export default  {
       }
     };
     //llamamos metodo para cargar la data
-    onMounted(() => {
+    onMounted(async() => {
       getData();
+
+      const connection = new HubConnectionBuilder()
+        .withUrl("http://localhost:55802/product-hub")
+        .build();
+
+      //connection hub backend
+      connection.on("NewProduct",async(product: {name: string; category: string; price: number}) => {
+          const alert = await alertController
+            .create({
+              cssClass: 'my-custom-class',
+              header: 'New Product',
+              subHeader: product.name,
+              message: JSON.stringify(product,null,'\t'),
+              buttons: ['OK'],
+            });
+          await alert.present();
+
+          getData();
+      });
+      connection.start();
     });
     return {
       dataApi,
       getData,
     };
-    
-  }
-}
+  },
+};
 </script>
