@@ -2,27 +2,91 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Tab 2</ion-title>
+        <ion-title>Add Product</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content :fullscreen="true">
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large">Tab 2</ion-title>
-        </ion-toolbar>
-      </ion-header>
-      
-      <ExploreContainer name="Tab 2 page" />
+    <ion-content :fullscreen="true" class="ion-padding">
+      <ion-row class="ion-justify-content-center">
+        <ion-col size="12" size-xs="12" size-sm="6" size-md="6" size-lg="6">
+          <form @submit.prevent="onSubmit">
+            <ion-item>
+              <ion-label position="floating">Name</ion-label>
+              <ion-input v-model="name"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">Category</ion-label>
+              <ion-input v-model="category"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">Price</ion-label>
+              <ion-input type="number" v-model="price"></ion-input>
+            </ion-item>
+            <div class="ion-text-center ion-padding-top">
+              <ion-button type="submit" color="success" shape="round"
+                >Add
+              </ion-button>
+            </div>
+          </form>
+        </ion-col>
+      </ion-row>
     </ion-content>
   </ion-page>
 </template>
 
 <script lang="ts">
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
-import ExploreContainer from '@/components/ExploreContainer.vue';
+import {
+  IonPage,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonContent,
+  IonRow,
+  IonCol,
+  IonItem,
+  IonLabel,
+  IonInput,
+  IonButton,
+  loadingController,
+} from "@ionic/vue";
+import { ref } from "vue";
+export default {
+  name: "Tab2",
+  components: {
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonContent,
+    IonRow,
+    IonCol,
+    IonPage,
+    IonItem,
+    IonLabel,
+    IonInput,
+    IonButton,
+  },
 
-export default  {
-  name: 'Tab2',
-  components: { ExploreContainer, IonHeader, IonToolbar, IonTitle, IonContent, IonPage }
-}
+  setup() {
+    const name = ref("");
+    const category = ref("");
+    const price = ref("");
+    const onSubmit = async () => {
+      const loading = await loadingController.create({
+        cssClass: "my-custom-class",
+        message: "Add...",
+      });
+      await loading.present();
+
+      console.log(name.value);
+
+
+      await loading.dismiss();
+    };
+    return {
+      name,
+      category,
+      price,
+      onSubmit,
+    };
+  },
+};
 </script>
