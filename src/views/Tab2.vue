@@ -49,6 +49,7 @@ import {
   loadingController,
 } from "@ionic/vue";
 import { ref } from "vue";
+import api from "../api-endpoint";
 export default {
   name: "Tab2",
   components: {
@@ -85,7 +86,7 @@ export default {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ name: name.value, category: category.value, price: price.value })
           };
-          const response = await fetch("http://localhost:55802/api/Product", requestOptions);
+          const response = await fetch(api, requestOptions);
           const data = await response.json();
           console.log(data);
           name.value = "";

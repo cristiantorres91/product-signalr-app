@@ -38,6 +38,7 @@ import {
 } from "@ionic/vue";
 import { ref, onMounted } from "vue";
 import { HubConnectionBuilder, LogLevel } from "@aspnet/signalr";
+import api from "../api-endpoint";
 export default {
   name: "Tab1",
   components: {
@@ -57,7 +58,7 @@ export default {
     //metodo para obtener la data de la api
     const getData = async () => {
       try {
-        const response = await fetch("http://localhost:55802/api/Product");
+        const response = await fetch(api);
         dataApi.value = await response.json();
         console.log(dataApi.value);
       } catch (error) {
@@ -69,7 +70,7 @@ export default {
       getData();
 
       const connection = new HubConnectionBuilder()
-        .withUrl("http://localhost:55802/product-hub")
+        .withUrl("https://products-api-signalr.herokuapp.com/product-hub")
         .build();
 
       //connection hub backend
