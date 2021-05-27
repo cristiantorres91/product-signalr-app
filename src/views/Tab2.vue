@@ -86,7 +86,7 @@ export default {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ name: name.value, category: category.value, price: price.value })
           };
-          const response = await fetch(api, requestOptions);
+          const response = await fetch(`${api}/api/product`, requestOptions);
           const data = await response.json();
           console.log(data);
           name.value = "";

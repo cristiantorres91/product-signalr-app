@@ -58,7 +58,7 @@ export default {
     //metodo para obtener la data de la api
     const getData = async () => {
       try {
-        const response = await fetch(api);
+        const response = await fetch(`${api}/api/product`);
         dataApi.value = await response.json();
         console.log(dataApi.value);
       } catch (error) {
@@ -70,7 +70,7 @@ export default {
       getData();
 
       const connection = new HubConnectionBuilder()
-        .withUrl("https://products-api-signalr.herokuapp.com/product-hub")
+        .withUrl(`${api}/product-hub`)
         .build();
 
       //connection hub backend
