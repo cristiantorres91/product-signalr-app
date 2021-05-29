@@ -80,7 +80,7 @@ export default {
         await loading.present();
   
         console.log(name.value);
-  
+          //post data api
           const requestOptions = {
             method: "POST",
             headers: { "Content-Type": "application/json" },

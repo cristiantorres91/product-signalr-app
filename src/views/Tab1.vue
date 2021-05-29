@@ -55,7 +55,7 @@ export default {
 
   setup() {
     const dataApi = ref([]);
-    //metodo para obtener la data de la api
+    //method get data from api
     const getData = async () => {
       try {
         const response = await fetch(`${api}/api/product`);
@@ -65,15 +65,15 @@ export default {
         console.log(error);
       }
     };
-    //llamamos metodo para cargar la data
     onMounted(async() => {
       getData();
 
+      //connection hub backend
       const connection = new HubConnectionBuilder()
         .withUrl(`${api}/product-hub`)
         .build();
 
-      //connection hub backend
+      //show alert add product
       connection.on("NewProduct",async(product: {name: string; category: string; price: number}) => {
           const alert = await alertController
             .create({

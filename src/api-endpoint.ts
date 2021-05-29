@@ -1,4 +1,2 @@
-  
-const url =  "https://products-api-signalr.herokuapp.com";
-// const url =  "http://localhost:55802/api/product";
+const url =  "http://localhost:55802";
 export default url;
